@@ -45,25 +45,31 @@ public class MainActivity extends AppCompatActivity {
         cityAdapter=new ArrayAdapter<>(this, R.layout.content, dataList);  // 2nd: what is looks like, 3rd arg:container that holds content
         cityList.setAdapter(cityAdapter); //tell listview who its adapter is
 
-        //Delete city from List
+
+        //FUNCTION - Delete city from List:
         cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //when indiv elemen on listview is clicked
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //get which item is clicked
-                String selectedCity = (String) parent.getItemAtPosition(position);
-                //define behaviour when indiv elemen on listview is clicked:
+                //HERE - Define behaviour when indiv elemen on listview is clicked:
+
+                String selectedCity = (String) parent.getItemAtPosition(position); //get which item is clicked
+
+                //Once Item is clicked, then listen for when deleteCityButton is clicked:
                 deleteCity.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //When deleteCityButton is clicked, then delete from the ListView datasource:
                         dataList.remove(position);  //dataList is the data source for the ListView
                         cityAdapter.notifyDataSetChanged(); //notifies adapter which refreshes ListView
 
+                        //short confirmation message:
                         Toast deleteConfirmed =Toast.makeText(MainActivity.this, selectedCity+" has been deleted.", Toast.LENGTH_SHORT);
                         deleteConfirmed.show();
                     }
                 });
             }
         });
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
