@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         cityList = findViewById(R.id.city_list);
-        Button button = findViewById(R.id.button); //need to 1st to interact with UI elements
+        Button button = findViewById(R.id.addCityButton); //need this 1st to interact with UI elements
+        Button deleteCity = findViewById(R.id.deleteCityButton);
 
         String[] cities = {"Edmonton","Paris","London","Vancouver"};    //instantiate into string array
         dataList = new ArrayList<>();
@@ -43,11 +45,23 @@ public class MainActivity extends AppCompatActivity {
         cityAdapter=new ArrayAdapter<>(this, R.layout.content, dataList);  // 2nd: what is looks like, 3rd arg:container that holds content
         cityList.setAdapter(cityAdapter); //tell listview who its adapter is
 
+        //Delete city from List
         cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //when indiv elemen on listview is clicked
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //gets which item is clicked
-                //define behaviour when indiv elemen on listview is clicked
+                //get which item is clicked
+                String selectedCity = (String) parent.getItemAtPosition(position);
+                //define behaviour when indiv elemen on listview is clicked:
+                deleteCity.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dataList.remove(position);  //dataList is the data source for the ListView
+                        cityAdapter.notifyDataSetChanged(); //notifies adapter which refreshes ListView
+
+                        Toast deleteConfirmed =Toast.makeText(MainActivity.this, selectedCity+" has been deleted.", Toast.LENGTH_SHORT);
+                        deleteConfirmed.show();
+                    }
+                });
             }
         });
 
