@@ -37,26 +37,33 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-        });
+        }); //not necessary
 
-        //MUST CONNECT TO EACH visual UI ELEMENT:
+        //FIRST MUST CONNECT TO EACH visual UI ELEMENT that you wanna interact with:
         cityList = findViewById(R.id.city_list);
-        Button addCity = findViewById(R.id.addCityButton); //need this 1st to interact with UI elements
+        Button addCity = findViewById(R.id.addCityButton);
         Button deleteCity = findViewById(R.id.deleteCityButton);
         EditText inputText = findViewById(R.id.inputCity);
         Button confirm = findViewById(R.id.confirmButton);
 
+        //Initialize confirmButton as disabled:
+        confirm.setEnabled(false);
+
         String[] cities = {"Edmonton","Paris","London","Vancouver"};    //instantiate into string array
         dataList = new ArrayList<>();
-        dataList.addAll(Arrays.asList(cities)); //convert primitive arr to ArrayList, and send to addAll (addAll accepts collections, not primitive list)
-        cityAdapter=new ArrayAdapter<>(this, R.layout.content, dataList);  // 2nd: layout file defining what is looks like, 3rd arg:container that holds content
-        // context is where its happening
+        dataList.addAll(Arrays.asList(cities)); //convert primitive Array to ArrayList, and send to addAll (cuz addAll accepts collections, not primitive list)
+        cityAdapter=new ArrayAdapter<>(this, R.layout.content, dataList);
+        // ^ArrayAdapter args:
+        // 1st arg: Type Context - tells ArrayAdapter on which activity/fragment to operate on
+        // 2nd arg: Type Int - layout file defining what each element in the array looks like
+        // 3rd arg: Type ArrayList - container that holds content - the data source used by the adapter
         cityList.setAdapter(cityAdapter); //tell listview who its adapter is
         // Adapter adapts data to display
 
 
         //FUNCTION - Delete city from List:
-        cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {  //when indiv elemen on listview is clicked
+        //setOnItemClickListener() called when an individ element in ListView is clicked
+        cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //parameters: view refers to elements inside the view/list, position sets to whichever index was clicked
@@ -70,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         //When deleteCityButton is clicked, then delete from the ListView datasource:
                         dataList.remove(position);  //dataList is the data source for the ListView
-                        cityAdapter.notifyDataSetChanged(); //notifies adapter which refreshes ListView
+                        cityAdapter.notifyDataSetChanged(); //notifies adapter, which refreshes to UI ListView element
 
-                        //short confirmation message:
+                        //short confirmation pop-up message:
                         Toast deleteConfirmed =Toast.makeText(MainActivity.this, selectedCity+" has been deleted.", Toast.LENGTH_SHORT);
                         deleteConfirmed.show();
                     }
@@ -87,23 +94,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //HERE - define what to do when addCity is clicked (ie. crash the app, display a string etc):
-                //dataList.add("Ottawa"); //add to datalist, arrayadapter and list dont know bout it
-                //cityAdapter.notifyDataSetChanged(); //notify adapter
 
                 Toast promptAddCity = Toast.makeText(MainActivity.this, "type a city and confirm", Toast.LENGTH_SHORT);
                 promptAddCity.show();
 
-                //String newCity = inputText.getText().toString(); //use toString() to convert 'editable' to 'String'
+                //once addCity clicked, enable confirmButton
+                confirm.setEnabled(true);
 
                 //Wait for confirmButton to be clicked:
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String newCity = inputText.getText().toString();
-                        //Add the new city to city_list:
-                        //dataList.add(inputText.getText().toString());
-                        dataList.add(newCity);  //add to datalist, at this point arrayadapter and ListView don't know bout it
+                        //HERE - ADD THE NEW CITY (in EditText) TO CITY LIST
+                        String newCity = inputText.getText().toString(); //use toString() to convert 'editable' to 'String'
+                        //dataList.add( inputText.getText().toString() );
+                        dataList.add(newCity);  //add to datalist, (at this point arrayadapter and ListView don't know bout it)**
                         cityAdapter.notifyDataSetChanged(); //notify adapter, which updates ListView
+
+                        //After city is added, disable confirmButton:
+                        confirm.setEnabled(false);
                     }
                 });
             }
