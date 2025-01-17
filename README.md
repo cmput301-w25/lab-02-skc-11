@@ -3,12 +3,13 @@
 
 ## Student Details
 
-- **Full Name:** `<Enter name>`
-- **CCID:** `<Enter ccid>`
+- **Full Name:** `Sarah Chang`
+- **CCID:** `skchang1`
 
 ## References and Resources
 
 List any resources used here, or simply put `N/A` if not applicable.
+- EditText: https://www.youtube.com/watch?v=DR4qXPYQyDM&t=815s  
 
 ## Verbal Collaboration
 

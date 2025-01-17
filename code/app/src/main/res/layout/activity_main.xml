@@ -5,16 +5,18 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".MainActivity">
+
 
     <ListView
         android:id="@+id/city_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addCityButton">
+        app:layout_constraintTop_toBottomOf="@id/confirmButton">
 
     </ListView>
 
@@ -32,8 +34,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DELETE CITY"
-        app:layout_constraintStart_toEndOf="@id/addCityButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/addCityButton"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/inputCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addCityButton" />
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CONFIRM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/inputCity"
+        app:layout_constraintTop_toBottomOf="@id/deleteCityButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
